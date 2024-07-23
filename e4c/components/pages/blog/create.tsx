@@ -12,7 +12,7 @@ function TextEditor() {
   };
 
   return (
-    <div>
+    <>
       <ReactQuill
         value={editorHtml}
         onChange={handleChange}
@@ -30,6 +30,9 @@ function TextEditor() {
             ],
             ["link", "image", "video"],
             ["clean"],
+            [{ align: [] }],
+            [{ color: [] }, { background: [] }],
+            ["code-block"],
           ],
         }}
         formats={[
@@ -47,13 +50,14 @@ function TextEditor() {
           "link",
           "image",
           "video",
+          "align",
+          "color",
+          "background",
+          "code-block",
         ]}
       />
-      <div className="preview">
-        <h3>Preview</h3>
-        <div dangerouslySetInnerHTML={{ __html: editorHtml }} />
-      </div>
-    </div>
+      <div dangerouslySetInnerHTML={{ __html: editorHtml }} />
+    </>
   );
 }
 
