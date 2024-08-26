@@ -21,25 +21,49 @@ class UserController {
     }
   }
 
-  async createUser(req, res) {
-    const saltRounds = 10;
-    const { username, password } = req.body;
-
-    bcrypt.genSalt(saltRounds, (err, salt) => {
-      if (err) throw err;
-
-      bcrypt.hash(password, salt, (err, hash) => {
-        if (err) throw err;
-
-        // Store the hashed password in your database
-        insertUser(username, hash);
-        console.log("Hashed Password:", hash);
-      });
-    });
-    function insertUser(username, password) {
+  async getAllUser(req, res) {
+    const users = await findAllUser();
+    res.json(users);
+    function findAllUser() {
       return new Promise((resolve, reject) => {
         con.query(
-          `insert into account(username, password) values('${username}','${password}');`,
+          `select username, fullname, role, avatar from account`,
+          function (error, result, fields) {
+            if (error) {
+              reject(error);
+              return;
+            }
+            resolve(result);
+          }
+        );
+      });
+    }
+  }
+
+  async createUser(req, res) {
+    const saltRounds = 10;
+    const { username, password, role, fullname, avatar } = req.body;
+
+    if (!password) {
+      insertUser(username, "", role, fullname, avatar);
+    } else {
+      bcrypt.genSalt(saltRounds, (err, salt) => {
+        if (err) throw err;
+
+        bcrypt.hash(password, salt, (err, hash) => {
+          if (err) throw err;
+
+          // Store the hashed password in your database
+          insertUser(username, hash, role, "", "");
+          console.log("Hashed Password:", hash);
+        });
+      });
+    }
+
+    function insertUser(username, password, role, fullname, avatar) {
+      return new Promise((resolve, reject) => {
+        con.query(
+          `insert into account(username, password, role, fullname, avatar) values('${username}','${password}', '${role}','${fullname}','${avatar}');`,
           function (error, result, fields) {
             if (error) {
               reject(error);

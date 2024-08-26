@@ -12,6 +12,7 @@ type Topic = {
     name: string;
     label: string;
     img: string;
+    progress: number
 }
 
 type Question = {
@@ -19,6 +20,7 @@ type Question = {
     title: string;
     keyword: string;
     typeId: number;
+    typeName: string;
     answers: Answer[];
 }
 

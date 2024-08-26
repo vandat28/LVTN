@@ -6,6 +6,7 @@ import { notifyError, notifySuccess } from "@/components/ui/toast-notification";
 import { API_USER_LOGIN } from "@/constants/api";
 import Cookies from "js-cookie";
 import axios from "axios";
+import GoogleLogin from "@/components/ui/google-login";
 
 interface FormErrors {
   username?: string;
@@ -60,7 +61,7 @@ export default function LoginForm() {
         notifySuccess("Đang chuyển hướng trang");
         setTimeout(() => {
           window.location.href = "http://localhost:3000/";
-        }, 3000);
+        }, 1000);
       } catch (error) {
         // Handle request error
         notifyError("Tài khoản hoặc mật khẩu không đúng!!");
@@ -97,7 +98,7 @@ export default function LoginForm() {
                   className="block w-full rounded-md border-0 px-2.5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:text-sm sm:leading-6"
                 />
               </div>
-              <span className="text-red-500 font-medium text-sm">
+              <span className="text-red font-medium text-sm">
                 {errors.username && errors.username}
               </span>
             </div>
@@ -129,7 +130,7 @@ export default function LoginForm() {
                   className="block w-full rounded-md border-0 px-2.5 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:text-sm sm:leading-6"
                 />
               </div>
-              <span className="text-red-500 font-medium text-sm">
+              <span className="text-red font-medium text-sm">
                 {errors.password && errors.password}
               </span>
             </div>
@@ -142,12 +143,13 @@ export default function LoginForm() {
                 Đăng nhập
               </button>
             </div>
+            <GoogleLogin />
           </form>
 
           <p className="mt-10 text-center text-sm text-gray-500">
             Chưa có tài khoản?{" "}
             <Link
-              href="/register"
+              href="/web/register"
               className="font-semibold leading-6 text-blue-600 hover:text-blue-400"
             >
               Tạo một tài khoản mới

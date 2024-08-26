@@ -51,7 +51,7 @@ export default function HomePage() {
             </li>
           </ul>
           <Link
-            href="/learning"
+            href="/web/learning"
             className="flex items-center justify-center mt-4 h-12"
           >
             <StartButton />

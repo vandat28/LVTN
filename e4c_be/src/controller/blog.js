@@ -44,6 +44,30 @@ class BlogController {
       });
     }
   }
+
+  async create(req, res) {
+    try {
+      await createBlog(req.body);
+      res.status(200).json("success ");
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+
+    function createBlog(blog) {
+      return new Promise((resolve, reject) => {
+        con.query(
+          ` insert into blog(title, description, content, img) value('${blog.title}','${blog.description}','${blog.content}', '${blog.img}');`,
+          function (error, result, fields) {
+            if (error) {
+              reject(error);
+              return;
+            }
+            resolve(result[0]);
+          }
+        );
+      });
+    }
+  }
 }
 
 module.exports = new BlogController();

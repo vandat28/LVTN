@@ -16,7 +16,7 @@ export default function BlogDetail({ id }: BlogDetailProps) {
     <>
       {isLoading && <CircleLoading />}
       {data && (
-        <div className="flex justify-between px-4 mx-auto max-w-screen-xl ">
+        <div className="flex justify-between p-8 mx-auto max-w-screen-xl bg-white rounded-xl">
           <article className="mx-auto w-full max-w-2xl format format-sm sm:format-base lg:format-lg format-blue dark:format-invert">
             <header className="mb-4 lg:mb-6 not-format">
               <h1 className="mb-4 text-3xl font-extrabold leading-tight text-gray-900 lg:mb-6 lg:text-4xl dark:text-white">
@@ -24,7 +24,6 @@ export default function BlogDetail({ id }: BlogDetailProps) {
               </h1>
             </header>
             <p className="mb-6">{data.description}</p>
-            <img src={data.img} alt="" className="w-full h-auto" />
             <div
               className="mt-6"
               dangerouslySetInnerHTML={{ __html: data.content }}

@@ -16,9 +16,6 @@ export default function Blog() {
   return (
     <>
       <div className="flex flex-col md:px-20">
-        <h1 className="text-2xl md:text-4xl font-bold text-center text-blue-500 my-8">
-          Blog
-        </h1>
         {isLoading && <CircleLoading />}
         <div className="flex flex-col items-center md:flex-row md:gap-[10%] lg:gap-[5%] md:flex-wrap">
           {data &&

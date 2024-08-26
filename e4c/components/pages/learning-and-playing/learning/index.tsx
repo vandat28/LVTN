@@ -1,20 +1,52 @@
 "use client";
 import SidebarMobile from "@/components/ui/learning-and-playing/learning/slidebarMobile";
 import Question from "@/components/ui/learning-and-playing/learning/question";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { fetcher } from "@/api/fetcher";
-import { API_QUESTIONS_OF_TOPIC } from "@/constants/api";
+import { API_PROCESS, API_QUESTIONS_OF_TOPIC } from "@/constants/api";
 import useSWR from "swr";
+import axios from "axios";
+import { convertTimestampToDateTime } from "@/utils";
+import { useUser } from "@/context/user";
 
 type ContentProps = {
   id: number;
 };
 export default function Content(props: ContentProps) {
+  const { user } = useUser();
   const [index, setIndex] = useState(0);
+  const [progress, setProgress] = useState(0);
+
   const { data, error, isLoading } = useSWR<GetQuestionsOfTopicResponse>(
     `${API_QUESTIONS_OF_TOPIC}/${props.id}`,
     fetcher
   );
+
+  const getProcess = async (username: any, topicId: number) => {
+    try {
+      const response = await axios.get(
+        `${API_PROCESS}?username=${username}&topicId=${topicId}`
+      );
+      if (response.data) {
+        setIndex(response.data.process - 1);
+        console.log(response.data.progress);
+        setProgress(response.data.progress);
+      } else {
+        await axios.post(API_PROCESS, {
+          username: username,
+          topicId: props.id,
+          learningTime: convertTimestampToDateTime(new Date().getTime()),
+          process: 1,
+          progress: 0,
+        });
+      }
+    } catch (error) {
+      console.error("There was an error!", error);
+    }
+  };
+  useEffect(() => {
+    if (user) getProcess(user?.username, props.id);
+  });
 
   if (error) return <div>Error</div>;
 
@@ -47,7 +79,6 @@ export default function Content(props: ContentProps) {
         )}
         {data && (
           <>
-            {" "}
             <header className="flex justify-between items-center mb-8">
               <button className="text-xl py-2 px-4 bg-white rounded-full text-gray-600 font-bold">
                 {data.topic.name}
@@ -63,6 +94,9 @@ export default function Content(props: ContentProps) {
                 setIndex={setIndex}
                 index={index}
                 length={data.questions.length}
+                username={user?.username}
+                topicId={props.id}
+                progress={progress}
               />
             </div>
           </>

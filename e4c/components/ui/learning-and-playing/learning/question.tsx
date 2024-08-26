@@ -11,6 +11,9 @@ type QuestionProps = {
   setIndex: (index: number) => void;
   index: number;
   length: number;
+  username?: string;
+  topicId: number;
+  progress: number;
 };
 
 export default function Question(props: QuestionProps) {
@@ -98,6 +101,9 @@ export default function Question(props: QuestionProps) {
         index={props.index}
         length={props.length}
         setOpacity={setOpacity}
+        topicId={props.topicId}
+        username={props.username}
+        progress={props.progress}
       />
     </>
   );

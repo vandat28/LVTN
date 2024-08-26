@@ -8,6 +8,7 @@ import ToastNotification, {
   notifySuccess,
 } from "@/components/ui/toast-notification";
 import Cookies from "js-cookie";
+import GoogleLogin from "@/components/ui/google-login";
 
 interface FormErrors {
   username?: string;
@@ -20,6 +21,7 @@ export default function RegisterForm() {
     username: "",
     password: "",
     rePassword: "",
+    role: "User",
   });
   const [errors, setErrors] = useState<FormErrors>({});
 
@@ -78,7 +80,7 @@ export default function RegisterForm() {
           notifySuccess("Đang chuyển hướng trang");
           setTimeout(() => {
             window.location.href = "http://localhost:3000/";
-          }, 3000);
+          }, 1000);
         } catch (error) {
           notifyError("Đăng ký thất bại vui lòng kiểm tra lại");
         }
@@ -97,7 +99,7 @@ export default function RegisterForm() {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form className="space-y-4" onSubmit={handleSubmit}>
+          <form className="space-y-3" onSubmit={handleSubmit}>
             <div className="h-24">
               <label
                 htmlFor="username"
@@ -116,7 +118,7 @@ export default function RegisterForm() {
                 />
               </div>
 
-              <span className="text-red-500 font-medium text-sm">
+              <span className="text-red font-medium text-sm">
                 {errors.username && errors.username}
               </span>
             </div>
@@ -141,7 +143,7 @@ export default function RegisterForm() {
                 />
               </div>
 
-              <span className="text-red-500 font-medium text-sm">
+              <span className="text-red font-medium text-sm">
                 {errors.password && errors.password}
               </span>
             </div>
@@ -165,7 +167,7 @@ export default function RegisterForm() {
                 />
               </div>
 
-              <span className="text-red-500 font-medium text-sm">
+              <span className="text-red font-medium text-sm">
                 {errors.rePassword && errors.rePassword}
               </span>
             </div>
@@ -178,12 +180,13 @@ export default function RegisterForm() {
                 Đăng ký
               </button>
             </div>
+            <GoogleLogin />
           </form>
 
           <p className="mt-10 text-center text-sm text-gray-500">
             Đã có tài khoản?{" "}
             <Link
-              href="/login"
+              href="/web/login"
               className="font-semibold leading-6 text-blue-600 hover:text-blue-400"
             >
               Đăng nhập

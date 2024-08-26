@@ -13,7 +13,10 @@ const SidebarMobile = () => {
   const handleOpen = () => {
     open ? setOpen(false) : setOpen(true);
   };
-  const settings = ["Trang chủ", "Đổi chủ đề"];
+  const settings = [
+    { url: "/web", name: "Trang chủ" },
+    { url: "/web/learning", name: "Đổi chủ đề" },
+  ];
   const id = 1;
   return (
     <>
@@ -31,11 +34,17 @@ const SidebarMobile = () => {
         {open && (
           <div className="bg-white rounded-xl absolute top-12 right-0 w-40 shadow-lg text-gray-600 ">
             {settings.map((setting) => (
-              <MenuItem key={setting}>
-                <Typography textAlign="center" fontSize="14px" fontWeight="500">
-                  {setting}
-                </Typography>
-              </MenuItem>
+              <Link href={setting.url} key={setting.name}>
+                <MenuItem>
+                  <Typography
+                    textAlign="center"
+                    fontSize="14px"
+                    fontWeight="500"
+                  >
+                    {setting.name}
+                  </Typography>
+                </MenuItem>
+              </Link>
             ))}
           </div>
         )}

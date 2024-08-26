@@ -3,12 +3,20 @@ import { fetcher } from "@/api/fetcher";
 import Level from "@/components/ui/learning-and-playing/level";
 import CircleLoading from "@/components/ui/loading/circle-loading";
 import { API_LEVEL } from "@/constants/api";
+import { useUser } from "@/context/user";
 import useSWR from "swr";
 
 export default function LearningAndPlaying() {
-  const { data, error } = useSWR<GetLevelResponse>(API_LEVEL, fetcher);
+  const { user } = useUser();
+  const { data, error } = useSWR<GetLevelResponse>(
+    `${API_LEVEL}?username=${user?.username}`,
+    fetcher
+  );
 
   // Determine loading state
+
+  console.log(data);
+
   const isLoading = !data && !error;
 
   if (error) return <div>Error</div>;

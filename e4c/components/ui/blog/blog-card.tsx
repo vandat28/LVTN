@@ -13,24 +13,21 @@ type BlogProps = {
 
 export default function BlogCard({ blog }: BlogProps) {
   return (
-    <Card
-      sx={{ maxWidth: 345 }}
-      className="transform transition-transform duration-300 hover:-translate-y-2 mb-6  md:w-[45%] lg:w-[30%] rounded-2xl"
-    >
+    <Card className="transform transition-transform duration-300 hover:-translate-y-2 mb-6  rounded-2xl md:w-[45%] lg:w-[30%]">
       <CardMedia sx={{ height: 180 }} image={blog.img} title="green iguana" />
       <CardContent>
         <Typography
           gutterBottom
           variant="h6"
           component="div"
-          className="font-sans"
+          className="font-sans line-clamp-2"
         >
           {blog.title}
         </Typography>
         <Typography
           variant="body2"
           color="text.secondary"
-          className="font-sans"
+          className="font-sans line-clamp-3"
         >
           {blog.description}
         </Typography>
@@ -42,7 +39,7 @@ export default function BlogCard({ blog }: BlogProps) {
         >
           Chia sẻ
         </Button>
-        <Link href={`/blog/${blog.id}`}>
+        <Link href={`/web/blog/${blog.id}`}>
           <Button
             size="small"
             className="text-blue-500 hover:bg-gray-200 text-sx"

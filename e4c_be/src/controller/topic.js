@@ -1,6 +1,29 @@
 const con = require("../configdb/connectDB");
 
 class TopicController {
+  async getAllTopic(req, res) {
+    try {
+      const topics = await findAllTopic();
+      res.status(200).json(topics);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+    function findAllTopic() {
+      return new Promise((resolve, reject) => {
+        con.query(
+          `SELECT a.*, b.name as levelName FROM topic a ,level b  where b.id = a.levelId`,
+          function (error, result, fields) {
+            if (error) {
+              reject(error);
+              return;
+            }
+            resolve(result);
+          }
+        );
+      });
+    }
+  }
+
   async getTopic(req, res) {
     try {
       const topic = await findTopic(req.params.id);
@@ -27,7 +50,10 @@ class TopicController {
   }
   async getTopicsSameLevel(req, res) {
     try {
-      const topics = await findTopicsSameLevel(req.params.id);
+      const topics = await findTopicsSameLevel(
+        req.query.id,
+        req.query.username
+      );
       res.status(200).json({
         result: topics,
       });
@@ -35,10 +61,13 @@ class TopicController {
       res.status(500).json({ error: error.message });
     }
 
-    function findTopicsSameLevel(id) {
+    function findTopicsSameLevel(id, username) {
       return new Promise((resolve, reject) => {
         con.query(
-          `select * from topic where levelId = ${id}`,
+          `SELECT * 
+            FROM topic 
+            LEFT JOIN process ON topic.id = process.topicId AND process.username = '${username}' 
+            WHERE topic.levelId = ${id}`,
           function (error, result, fields) {
             if (error) {
               reject(error);
@@ -72,7 +101,7 @@ class TopicController {
     function findQuestions(id) {
       return new Promise((resolve, reject) => {
         con.query(
-          `select * from question where topicId = ${id}`,
+          `select a.*, b.name as typeName from question a, question_type b where topicId = ${id} and a.typeId = b.id order by id`,
           function (error, result, fields) {
             if (error) {
               reject(error);

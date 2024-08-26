@@ -96,7 +96,7 @@ export default function Translate() {
   };
 
   return (
-    <div className="p-4 min-h-[728px] flex justify-center items-center">
+    <div className="p-4 2xl:min-h-[728px] flex justify-center items-center">
       <div className="w-full">
         {" "}
         <div className="flex justify-center mb-4 flex-col md:flex-row gap-2">

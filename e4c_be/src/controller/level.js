@@ -4,11 +4,12 @@ class LevelController {
   async findAll(req, res) {
     try {
       const data = await findAll();
+      const username = req.query.username;
       // Sử dụng Promise.all để đợi tất cả các promises trong map hoàn thành
       const newData = await Promise.all(
         data.map(async (item) => ({
           ...item,
-          topics: await findTopicOfLevel(item.id),
+          topics: await findTopicOfLevel(item.id, username),
         }))
       );
       res.status(200).json({ result: newData });
@@ -28,10 +29,13 @@ class LevelController {
       });
     }
 
-    function findTopicOfLevel(id) {
+    function findTopicOfLevel(id, username) {
       return new Promise((resolve, reject) => {
         con.query(
-          `select * from topic where levelId = ${id}`,
+          `SELECT * 
+            FROM topic 
+            LEFT JOIN process ON topic.id = process.topicId AND process.username = '${username}' 
+            WHERE topic.levelId = ${id}`,
           function (error, result, fields) {
             if (error) {
               reject(error);

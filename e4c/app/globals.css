@@ -1,3 +1,5 @@
+
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -173,24 +175,4 @@ html {
 }
 
 
-/* Custom styles for the ReactQuill editor using Tailwind CSS classes */
-.ql-container {
-  @apply font-sans text-base min-h-96 border border-gray-300 rounded;
-}
 
-.ql-toolbar {
-  @apply bg-gray-100 border-b border-gray-300 rounded-t;
-}
-
-.ql-editor {
-  @apply bg-white min-h-96 p-4 rounded-b;
-}
-
-/* Custom button styling */
-.ql-toolbar .ql-formats button {
-  @apply bg-white border-none rounded p-1 mx-1;
-}
-
-.ql-toolbar .ql-formats button:hover {
-  @apply bg-gray-200;
-}

@@ -67,7 +67,7 @@ const WritingQuestion = (props: WritingQuestionProps) => {
         {text.map((item: string, index: number) => (
           <button
             key={index}
-            className="bg-white border-2 border-gray-300 p-2 rounded-md shadow-lg  font-medium wordAnimation"
+            className="bg-white border-2 border-black p-2 rounded-md shadow-lg  font-medium wordAnimation"
           >
             {item}
           </button>
@@ -75,13 +75,13 @@ const WritingQuestion = (props: WritingQuestionProps) => {
       </div>
       <div className="flex space-x-4">
         {props.question.answers.map((item: Answer, index: number) => (
-          <>
+          <div key={index}>
             {isClicked.includes(index) ? (
               <>
-                {" "}
                 <button
+                  key={index}
                   disabled={true}
-                  className="bg-gray-200 border-2 p-2 rounded-md shadow-lg"
+                  className="bg-gray-2 border-2 p-2 rounded-md shadow-lg"
                 >
                   <span className="invisible">{item.answer}</span>
                 </button>
@@ -89,15 +89,16 @@ const WritingQuestion = (props: WritingQuestionProps) => {
             ) : (
               <>
                 <button
+                  key={index}
                   onClick={() => handleClick(item.answer, item.isTrue, index)}
-                  className={`bg-white border-2 border-gray-300 p-2 rounded-md shadow-lg hover:bg-gray-100 hover:shadow-xl
-                  ${isFalse[index] ? "shake border-red-300" : ""}`}
+                  className={`bg-white border-2 border-black p-2 rounded-md shadow-lg hover:bg-gray-3 hover:shadow-xl
+                  ${isFalse[index] ? "shake border-red" : ""}`}
                 >
                   <span className="visible font-medium">{item.answer}</span>
                 </button>
               </>
             )}
-          </>
+          </div>
         ))}
       </div>
     </div>

@@ -70,10 +70,10 @@ export default function ABCDQuestion(props: ABCDQuestionProps) {
                 rounded-full shadow-xl hover:shadow-2xl duration-100 w-full ease-out p-0
                 ${
                   props.check[index] === undefined
-                    ? "border-gray-400 "
+                    ? "border-gray "
                     : props.check[index] === true
                     ? "border-green-300 "
-                    : "border-red-400 "
+                    : "border-red "
                 }`}
           >
             <div
@@ -81,10 +81,10 @@ export default function ABCDQuestion(props: ABCDQuestionProps) {
                rounded-full text-2xl 
                 duration-100 ease-out  ${
                   props.check[index] === undefined
-                    ? "bg-gray-300 "
+                    ? "bg-gray "
                     : props.check[index] === true
                     ? "bg-green-300 "
-                    : "bg-red-400 "
+                    : "bg-red "
                 }`}
             >
               {index === 0 ? "A" : index === 1 ? "B" : index === 2 ? "C" : "D"}

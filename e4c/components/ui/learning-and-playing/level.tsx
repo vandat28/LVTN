@@ -12,7 +12,7 @@ export default function Level(props: LevelProps) {
   return (
     <>
       <div
-        className={`flex flex-col border p-6 border-${props.color}-300 border-2 rounded-xl bg-white mb-8 font-medium shadow-xl`}
+        className={`flex flex-col border p-6 border-black border-2 rounded-xl bg-white mb-8 font-medium shadow-xl`}
       >
         <div className="flex justify-start items-center space-x-2">
           <h2 className="text-xl font-bold md:text-2xl text-gray-500">

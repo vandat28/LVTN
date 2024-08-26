@@ -1,7 +1,9 @@
 "use client";
 import React from "react";
-import PlayCircleIcon from "@mui/icons-material/PlayCircle";
 import Link from "next/link";
+import axios from "axios";
+import { API_PROCESS } from "@/constants/api";
+import { convertTimestampToDateTime } from "@/utils";
 
 type ModalCorrectProps = {
   open: boolean;
@@ -11,17 +13,43 @@ type ModalCorrectProps = {
   length: number;
   setOpacity: (boolean: boolean) => void;
   audioSrc: string;
+  username?: string;
+  topicId: number;
+  progress: number;
 };
 
 export default function ModalCorrect(props: ModalCorrectProps) {
+  const updateProcess = async (index: number) => {
+    const data = {
+      username: props.username,
+      topicId: props.topicId,
+      learningTime: convertTimestampToDateTime(new Date().getTime()),
+      process: props.length === index ? 1 : index + 1,
+      progress: props.progress == 100 ? 100 : (index * 100) / props.length,
+    };
+
+    try {
+      const response = await axios.put(API_PROCESS, data);
+      console.log(response.data);
+    } catch (error) {
+      console.error("There was an error!", error);
+    }
+  };
   const handleNextButton = (index: number) => {
     props.setOpen(false);
+
     setTimeout(() => {
       props.setIndex(index + 1);
     }, 1000);
     setTimeout(() => {
       props.setOpacity(true);
     }, 300);
+    if (props.username) updateProcess(index + 1);
+  };
+
+  const handleComplete = (index: number) => {
+    if (props.username) updateProcess(index + 1);
+    window.location.href = "http://localhost:3000/web/learning";
   };
   return (
     <>
@@ -60,17 +88,18 @@ export default function ModalCorrect(props: ModalCorrectProps) {
 
             <div className=" mt-9 p-4 md:px-12 md:py-9">
               {props.length === props.index + 1 ? (
-                <Link
-                  className=" w-full block text-blue-300 bg-white  font-medium rounded-full text-lg px-5 py-2.5 text-center hover:bg-gray-200"
-                  href={`/learning`}
+                <button
+                  type="button"
+                  onClick={() => handleComplete(props.index)}
+                  className=" w-full block text-blue-500 bg-white  font-medium rounded-full text-lg px-5 py-2.5 text-center hover:bg-slate-100"
                 >
                   Hoàn thành
-                </Link>
+                </button>
               ) : (
                 <button
                   type="button"
                   onClick={() => handleNextButton(props.index)}
-                  className=" w-full text-blue-300 bg-white  font-medium rounded-full text-lg px-5 py-2.5 text-center hover:bg-gray-200"
+                  className=" w-full text-blue-500 bg-white  font-medium rounded-full text-lg px-5 py-2.5 text-center hover:bg-slate-100"
                 >
                   Tiếp tục
                 </button>
